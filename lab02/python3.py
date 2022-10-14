@@ -18,17 +18,17 @@ LED_NUMBER = [LED_NUMBER_AM , LED_NUMBER_VERM, LED_NUMBER_VERD]
 
 
 #Função que escreve o valor 'value' no arquivo 'path + filename'
-def writeLED (filename, value, path=LED_PATH):
+def writeLED (filename, value, path):
     fo = open( path + filename,"w")
     fo.write(value)
     fo.close()
     return
 
 #Função que ligará o led, esperará 'pausa' segundos e então desligará o led
-def on_off_led(pausa, led_pth):
-    writeLED (filename = 'value', value = '1', path = led_pth)
+def on_off_led(pausa,led_path):
+    writeLED (filename = 'value', value = '1', path=led_path)
     sleep(pausa)
-    writeLED(filename = 'value', value = '0', path = led_pth)
+    writeLED(filename = 'value', value = '0',path=led_path)
 
 #Verifica o argumento dado no raspberry
 if len( sys.argv ) !=2:
@@ -40,14 +40,14 @@ if len( sys.argv ) !=2:
 #SE O PARÂMETRO NA RASPBERRY FOR 'LIGAR'
 if sys.argv[1]== "ligar":
     
-    for i range(5):
+    for i in range(5):
         #Ativia um GPIO por vez
         print(f"Habilitando a gpio{LED_NUMBER_AM} led_num")
         writeLED (filename="export", value=LED_NUMBER_AM, path=SYSFS_DIR)
         sleep(0.1)
-        writeLED (filename="direction", value="out", path= LED_PATH_AM)
+        writeLED (filename="direction", value="out", path=LED_PATH_AM)
     
-        on_off_led(pausa = 1, led_pth = LED_PATH_AM)   #LIGA LED AMARELO POR 1 SEGUNDO
+        on_off_led(pausa = 1, led_path=LED_PATH_AM)   #LIGA LED AMARELO POR 1 SEGUNDO
         
         print(f'Desabilitando a gpio{LED_NUMBER_AM}')
         writeLED (filename ="unexport", value =LED_NUMBER_AM , path = SYSFS_DIR)
@@ -57,7 +57,7 @@ if sys.argv[1]== "ligar":
         sleep(0.1)
         writeLED (filename="direction", value="out", path= LED_PATH_VERM)
         
-        on_off_led(pausa = 2, led_pth = LED_PATH_VERM) #LIGA LED VERMELHO POR 2 SEGUNDOS
+        on_off_led(pausa = 2,led_path=LED_PATH_VERM) #LIGA LED VERMELHO POR 2 SEGUNDOS
     
         print(f'Desabilitando a gpio{LED_NUMBER_VERM}')
         writeLED (filename ="unexport", value = LED_NUMBER_VERM , path = SYSFS_DIR)
@@ -67,7 +67,7 @@ if sys.argv[1]== "ligar":
         sleep(0.1)
         writeLED (filename="direction", value="out", path= LED_PATH_VERD)        
         
-        on_off_led(pausa = 1, led_pth = LED_PATH_VERD) #LIGA LED VERDE POR 1 SEGUNDO
+        on_off_led(pausa = 1,led_path=LED_NUMBER_VERD) #LIGA LED VERDE POR 1 SEGUNDO
 
         print(f'Desabilitando a gpio{LED_NUMBER_VERD}')
         writeLED (filename ="unexport", value = LED_NUMBER_VERD , path = SYSFS_DIR)        
